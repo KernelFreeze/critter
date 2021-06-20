@@ -8,6 +8,7 @@ import org.jboss.forge.roaster.model.Visibility
 import org.jboss.forge.roaster.model.Visibility.PUBLIC
 import java.time.temporal.Temporal
 import java.util.Date
+import java.util.Locale
 
 class CritterField(val name: String, val type: String) {
     companion object {
@@ -84,5 +85,5 @@ class CritterField(val name: String, val type: String) {
 }
 
 fun String.nameCase(): String {
-    return substring(0, 1).toUpperCase() + substring(1)
+    return substring(0, 1).uppercase(Locale.getDefault()) + substring(1)
 }

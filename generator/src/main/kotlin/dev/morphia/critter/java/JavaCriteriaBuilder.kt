@@ -1,8 +1,8 @@
 package dev.morphia.critter.java
 
 import dev.morphia.annotations.Reference
+import dev.morphia.critter.CriteriaBuilder
 import dev.morphia.critter.Critter.addMethods
-import dev.morphia.critter.CritterContext
 import dev.morphia.critter.CritterField
 import dev.morphia.critter.FilterSieve
 import dev.morphia.critter.UpdateSieve
@@ -10,11 +10,12 @@ import org.jboss.forge.roaster.Roaster
 import org.jboss.forge.roaster.model.source.JavaClassSource
 import java.io.File
 import java.io.PrintWriter
+import java.util.Locale
 
-class JavaBuilder(private val context: CritterContext) {
+class JavaCriteriaBuilder(private val context: JavaContext): CriteriaBuilder {
     private var nested = mutableListOf<JavaClassSource>()
 
-    fun build(directory: File) {
+    override fun build() {
         context.classes.values.forEach { source ->
             nested.clear()
             val criteriaClass = Roaster.create(JavaClassSource::class.java)
@@ -22,7 +23,7 @@ class JavaBuilder(private val context: CritterContext) {
                     .setName(source.name + "Criteria")
                     .setFinal(true)
 
-            val filters = File(directory, criteriaClass.qualifiedName.replace('.', '/') + ".java")
+            val filters = File(context.outputDirectory, criteriaClass.qualifiedName.replace('.', '/') + ".java")
             if (!source.isAbstract() && context.shouldGenerate(source.lastModified(), filters.lastModified())) {
                 criteriaClass.addField("private static final ${criteriaClass.name}Impl instance = new ${criteriaClass.name}Impl()")
                 val impl = Roaster.create(JavaClassSource::class.java)
@@ -173,7 +174,7 @@ private fun JavaClassSource.attachUpdates(field: CritterField) {
 }
 
 fun String.toTitleCase(): String {
-    return substring(0, 1).toUpperCase() + substring(1)
+    return substring(0, 1).uppercase(Locale.getDefault()) + substring(1)
 }
 
 fun String.toMethodCase(): String {

@@ -1,40 +1,26 @@
 package dev.morphia.critter
 
-import dev.morphia.critter.java.JavaClass
 import java.io.File
 
-@Suppress("UNCHECKED_CAST")
-class CritterContext(val criteriaPkg: String? = null, var force: Boolean = false) {
-    val classes = mutableMapOf<String, JavaClass>()
+open class CritterContext<T : CritterClass>(
+    val criteriaPkg: String?,
+    var force: Boolean = false,
+    val outputDirectory: File) {
 
-    fun shouldGenerate(sourceTimestamp: Long?, Timestamp: Long?): Boolean {
+    val classes: MutableMap<String, T> = mutableMapOf()
+    open fun shouldGenerate(sourceTimestamp: Long?, Timestamp: Long?): Boolean {
         return force || sourceTimestamp == null || Timestamp == null || Timestamp <= sourceTimestamp
     }
 
-    fun add(klass: JavaClass) {
+    open fun add(klass: T) {
         classes["${klass.pkgName}.${klass.name}"] = klass
     }
 
-/*
-    fun lookup(name: String): CritterClass? {
-        var className: String
-        var pkgName: String = null
-
-        if (name.contains(".")) {
-
-        } else {
-            className = name
-        }
-
-        return resolve(pkgName, className)
-    }
-*/
-
-    fun resolve(currentPkg: String? = null, name: String): JavaClass? {
+    open fun resolve(currentPkg: String? = null, name: String): T? {
         return classes[name] ?: currentPkg?.let { classes["$currentPkg.$name"] }
     }
 
-    fun resolveFile(name: String): File? {
+    open fun resolveFile(name: String): File? {
         return classes[name]?.file
     }
 }

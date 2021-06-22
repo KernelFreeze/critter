@@ -14,11 +14,8 @@
     <artifactId>critter-tests-gradle</artifactId>
     <packaging>pom</packaging>
 
-
-
     <modules>
         <module>java</module>
         <module>kotlin</module>
     </modules>
-
 </project>

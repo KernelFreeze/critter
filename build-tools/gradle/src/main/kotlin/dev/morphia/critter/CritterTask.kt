@@ -1,5 +1,6 @@
 package dev.morphia.critter
 
+import dev.morphia.critter.Critter.generateCriteria
 import dev.morphia.critter.Critter.scan
 import dev.morphia.critter.CritterPlugin.Companion
 import org.gradle.api.file.FileTree
@@ -27,13 +28,7 @@ open class CritterTask : SourceTask() {
 
     @TaskAction
     fun generate() {
-        scan(
-            project.projectDir,
-            files,
-            criteriaPackage,
-            force,
-            Critter.outputType(outputType),
-            outputDirectory
-        )
+        scan(project.projectDir, files, criteriaPackage, force, Critter.outputType(outputType), outputDirectory)
+        generateCriteria()
     }
 }

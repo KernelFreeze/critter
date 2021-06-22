@@ -78,7 +78,7 @@ class KotlinCriteriaTest: BottleRocketTest() {
         val invoice = datastore.find(Invoice::class.java)
                 .filter(InvoiceCriteria.person().eq(john))
                 .first()
-        Assert.assertEquals(invoice.person?.last, "Doe")
+        Assert.assertEquals(invoice?.person?.last, "Doe")
 
         val byCity = datastore.find(Invoice::class.java)
                 .filter(addresses().city().eq("Chicago"))

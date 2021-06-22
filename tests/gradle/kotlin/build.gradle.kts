@@ -1,6 +1,9 @@
+project.version = org.apache.maven.model.io.xpp3.MavenXpp3Reader().read(file("pom.xml").inputStream())
+    .parent.version
+
 plugins {
     `kotlin-dsl`
-    kotlin("jvm") version "1.5.0"
+    kotlin("jvm") version "1.5.10"
     id("dev.morphia.critter") version "4.2.0-SNAPSHOT"
 }
 

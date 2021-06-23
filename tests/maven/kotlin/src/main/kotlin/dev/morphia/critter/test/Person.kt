@@ -63,7 +63,7 @@ open class Person : AbstractPerson {
     }
 }
 
-@Embedded
+@Entity
 class SSN(var value: String) {
     private constructor() : this("")
 }

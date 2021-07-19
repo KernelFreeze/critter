@@ -15,12 +15,10 @@
  */
 package dev.morphia.critter.test
 
-import dev.morphia.annotations.Embedded
-import org.bson.types.ObjectId
 import dev.morphia.annotations.Entity
 import dev.morphia.annotations.Id
 import dev.morphia.annotations.Property
-import java.time.LocalDateTime
+import org.bson.types.ObjectId
 
 @Entity
 open class Person : AbstractPerson {
